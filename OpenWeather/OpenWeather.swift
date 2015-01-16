@@ -8,22 +8,35 @@
 import Foundation
 import Alamofire
 
-extension String {
-    func URLEncodedString() -> String? {
-        return stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())?
-    }
+enum OpenWeatherError: Int {
+    case InvalidInputData = -1
 }
 
 public class OpenWeather {
-    public typealias OpenWeatherRequestCompletionFunction = (AnyObject) -> ()
-    
+    public typealias OpenWeatherRequestCompletionFunction = (AnyObject?, NSError?) -> ()
+
+    /// URL of the OpenWeatherMap API endpoint
     private let baseUrl = "http://api.openweathermap.org/data/2.5"
     
-    //! OpenWeatherMap API key
+    /// OpenWeatherMap API key
     var apiKey: String?
     
-    //! Requests timeout interval, in seconds
-    var timeoutInterval: NSTimeInterval = 10
+    /// If the apiKey is not nil, returns a dictionary containing 
+    /// the variables to append to the query string of each request
+    private var apiKeyParam: [String: String] {
+        if let key = apiKey {
+            return ["APPID": key]
+        }
+        
+        return [String: String]()
+    }
+
+    /// Requests timeout, in seconds
+    var timeoutInterval: NSTimeInterval {
+        didSet {
+            Alamofire.Manager.sharedInstance.session.configuration.timeoutIntervalForRequest = timeoutInterval
+        }
+    }
     
     /**
         Initializes an instance of the OpenWeather class
@@ -32,43 +45,91 @@ public class OpenWeather {
     */
     public init(apiKey: String? = nil) {
         self.apiKey = apiKey
+        self.timeoutInterval = 10
     }
     
     /**
-        Sends a generic request for weather conditions
-    
-        :param: params Dictionary of [parameter: value] to add to the HTTP request
+        Sends an HTTP GET request to the OpenWeatherMap API service
     */
-    private func weather(#params: [String: String], completion: OpenWeatherRequestCompletionFunction) -> Bool {
+    private func request(endpoint: String, params: [String: String], completion: OpenWeatherRequestCompletionFunction) {
         
         //  Send the request
-        Alamofire.request(.GET, "\(baseUrl)/weather", parameters: params).responseJSON { (_, _, JSON, error) -> Void in
-
-            if let gotError = error {
-                return completion(["message": gotError.description, "cod": gotError.code])
+        Alamofire.request(.GET, "\(baseUrl)/\(endpoint)", parameters: (params | apiKeyParam)).responseJSON { (_, _, JSON, requestError) -> Void in
+            
+            //  Alamofire error
+            if requestError != nil {
+                return completion(nil, requestError)
             }
             
-            if let JSONObject: AnyObject = JSON {
-                return completion(JSONObject)
+            //  API error message
+            switch (JSON!["message"], JSON!["cod"]) {
+            case (let message, let cod) where message is String && cod is String:
+                let error = NSError(domain: NSBundle.mainBundle().bundleIdentifier ?? "OpenWeather",
+                                      code: (cod as String).toInt() ?? 0,
+                                  userInfo: [
+                                                NSLocalizedDescriptionKey: message as String!,
+                                                "RemoteErrorCode": cod as String!
+                                            ])
+                
+                return completion(JSON, error)
+            default:
+                return completion(JSON, nil)
             }
             
-            return completion(["message": "Invalid data", "cod": 0])
         }
 
-        return true
-        
     }
-    
+
     /**
         Gets the weather condition given a city name
     
         :param: city City name
     */
-    public func weather(#city: String, completion: OpenWeatherRequestCompletionFunction) -> Bool {
+    public func weather(#city: String, completion: OpenWeatherRequestCompletionFunction) {
         if city.isEmpty {
-            return false
+            let error = NSError(domain: NSBundle.mainBundle().bundleIdentifier ?? "OpenWeather",
+                                  code: OpenWeatherError.InvalidInputData.rawValue,
+                              userInfo: nil)
+            return completion(nil, error);
         }
         
-        return weather(params: ["q": city], completion: completion)
+        request("weather", params: ["q": city], completion: completion)
     }
+    
+    /**
+        Gets the weather condition given the (latitude, longitude) coordinates
+    
+        :param: latitude
+        :param: longitude
+    */
+    public func weather(#latitude: Int, longitude: Int, completion: OpenWeatherRequestCompletionFunction) {
+        request("weather", params: ["lat": String(latitude), "lon": String(longitude)], completion: completion)
+    }
+    
+    /**
+        Gets the weather forecast given a city name
+    
+        :param: city City name
+    */
+    public func forecast(#city: String, daily: Bool = true, completion: OpenWeatherRequestCompletionFunction) {
+        if city.isEmpty {
+            let error = NSError(domain: NSBundle.mainBundle().bundleIdentifier ?? "OpenWeather",
+                                  code: OpenWeatherError.InvalidInputData.rawValue,
+                              userInfo: nil)
+            return completion(nil, error);
+        }
+
+        request("forecast" + (daily ? "/daily" : ""), params: ["q": city], completion: completion)
+    }
+    
+    /**
+        Gets the weather forecast given the (latitude, longitude) coordinates
+    
+        :param: latitude
+        :param: longitude
+    */
+    public func forecast(#latitude: Int, longitude: Int, daily: Bool = true, completion: OpenWeatherRequestCompletionFunction) {
+        request("forecast" + (daily ? "/daily" : ""), params: ["lat": String(latitude), "lon": String(longitude)], completion: completion)
+    }
+    
 }

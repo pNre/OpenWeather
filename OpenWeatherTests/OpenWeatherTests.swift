@@ -17,68 +17,95 @@ class OpenWeatherTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
-        //  Setup an instance of OpenWeather
+
         openWeather = OpenWeather()
     }
 
-    func testQueryString() {
-
-    }
-    
     func testWeatherByCity_EmptyCity() {
-        let result = openWeather!.weather(city: "", completion: { (data: AnyObject) -> () in
-            XCTFail("The completion function should not be called")
+        let expectation = expectationWithDescription("Completion function")
+        
+        openWeather!.weather(city: "", completion: { (data: AnyObject?, error: NSError?) -> () in
+            XCTAssertNotNil(error)
+            expectation.fulfill()
         })
         
-        XCTAssertFalse(result, "OpenWeather.weather should return false if called with invalid data")
+        waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
+            XCTAssertNil(error)
+        })
     }
     
     func testWeatherByCity_NonExistentCity() {
         let expectation = expectationWithDescription("Completion function")
         
-        let result = openWeather!.weather(city: "Random, fictional, city", completion: { (data: AnyObject) -> () in
-            
-            XCTAssert(data.isKindOfClass(NSDictionary), "Invalid data format")
-            
-            XCTAssertNotNil(data["message"], "message key missing from the resulting data dictionary")
-            XCTAssertNotNil(data["cod"], "cod key missing from the resulting data dictionary")
-
+        openWeather!.weather(city: "Random, fictional, city", completion: { (data: AnyObject?, error: NSError?) -> () in
+            XCTAssertNotNil(error, "Error shouldn't be nil")
             expectation.fulfill()
         })
         
-        XCTAssertTrue(result, "OpenWeather.weather should return true")
-        
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
-            if error != nil {
-                XCTFail("Completion handler not called")
-            }
+            XCTAssertNil(error, "Completion handler not called")
         })
     }
     
     func testWeatherByCity_ValidCity() {
         let expectation = expectationWithDescription("Completion function")
         
-        let result = openWeather!.weather(city: "Rome, IT", completion: { (data: AnyObject) -> () in
+        openWeather!.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?) -> () in
             
-            XCTAssert(data.isKindOfClass(NSDictionary), "Invalid data format")
+            XCTAssertNotNil(data, "Data shouldn't be nil")
+            XCTAssertNil(error, "Error should be nil")
             
-            XCTAssertNotNil(data["name"], "name key missing from the resulting data dictionary")
-            XCTAssertNotNil(data["weather"], "weather key missing from the resulting data dictionary")
+            XCTAssertNotNil(data!["name"], "name key missing from the resulting data dictionary")
+            XCTAssertNotNil(data!["weather"], "weather key missing from the resulting data dictionary")
 
-            XCTAssertEqual(data["name"] as String, "Rome")
+            XCTAssertEqual(data!["name"] as String!, "Rome")
             
             expectation.fulfill()
             
         })
         
-        XCTAssertTrue(result, "OpenWeather.weather should return true")
-        
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
-            if error != nil {
-                XCTFail("Completion handler not called")
-            }
+            XCTAssertNil(error, "Completion handler not called")
         })
     }
     
+    func testWeatherByLatLon() {
+        let expectation = expectationWithDescription("Completion function")
+        
+        openWeather!.weather(latitude: 0, longitude: 0, completion: { (data: AnyObject?, error: NSError?) -> () in
+            
+            XCTAssertNotNil(data, "Data shouldn't be nil")
+            XCTAssertNil(error, "Error should be nil")
+            
+            XCTAssertNotNil(data!["name"], "name key missing from the resulting data dictionary")
+            XCTAssertNotNil(data!["weather"], "weather key missing from the resulting data dictionary")
+            
+            expectation.fulfill()
+            
+        })
+        
+        waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
+            XCTAssertNil(error, "Completion handler not called")
+        })
+    }
+    
+    func testForecastByLatLon_Daily() {
+        let expectation = expectationWithDescription("Completion function")
+
+        openWeather!.forecast(latitude: 0, longitude: 0, completion: { (data: AnyObject?, error: NSError?) -> () in
+
+            XCTAssertNotNil(data, "Data shouldn't be nil")
+            XCTAssertNil(error, "Error should be nil")
+            
+            XCTAssertNotNil(data!["city"], "city key missing from the resulting data dictionary")
+            XCTAssertNotNil(data!["list"], "list key missing from the resulting data dictionary")
+
+            expectation.fulfill()
+
+        })
+
+        waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
+            XCTAssertNil(error, "Completion handler not called")
+        })
+    }
 }
