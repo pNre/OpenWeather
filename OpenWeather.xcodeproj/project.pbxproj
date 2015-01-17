@@ -11,6 +11,8 @@
 		1E19756E1A68F51100A086C3 /* OpenWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1975621A68F51100A086C3 /* OpenWeather.framework */; };
 		1E1975751A68F51100A086C3 /* OpenWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1975741A68F51100A086C3 /* OpenWeatherTests.swift */; };
 		1E1975881A68F54600A086C3 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1975871A68F54600A086C3 /* OpenWeather.swift */; };
+		1E63D65C1A6ACBAB009C00C4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EE1CBA51A6904CB002CFCC5 /* Alamofire.framework */; };
+		1E63D65E1A6ACBE1009C00C4 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EE1CBA51A6904CB002CFCC5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1EE1CBCF1A6905CC002CFCC5 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB541A68F98B002CFCC5 /* Array.swift */; };
 		1EE1CBD01A6905CC002CFCC5 /* ExSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB591A68F98B002CFCC5 /* ExSwift.swift */; };
 		1EE1CBD11A6905CC002CFCC5 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB5C1A68F98B002CFCC5 /* Int.swift */; };
@@ -67,6 +69,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1E63D65D1A6ACBD8009C00C4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1E63D65E1A6ACBE1009C00C4 /* Alamofire.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1E1975621A68F51100A086C3 /* OpenWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1975661A68F51100A086C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E63D65C1A6ACBAB009C00C4 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +242,7 @@
 				1E19755E1A68F51100A086C3 /* Frameworks */,
 				1E19755F1A68F51100A086C3 /* Headers */,
 				1E1975601A68F51100A086C3 /* Resources */,
+				1E63D65D1A6ACBD8009C00C4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
