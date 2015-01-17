@@ -12,7 +12,7 @@ enum OpenWeatherError: Int {
     case InvalidInputData = -1
 }
 
-public class OpenWeather {
+public class OpenWeather: NSObject {
     public typealias OpenWeatherRequestCompletionFunction = (AnyObject?, NSError?) -> ()
 
     /// URL of the OpenWeatherMap API endpoint
