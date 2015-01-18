@@ -23,7 +23,7 @@ public class OpenWeather {
     
     /// Dictionary containing the variables to append to the query string of each request
     private var extraParams: [String: String] {
-        var params = [String: String]()
+        var params: [String: String] = ["lang": self.locale!]
         
         if let key = apiKey {
             params = params | ["APPID": key]
@@ -38,6 +38,18 @@ public class OpenWeather {
     
     /// Data units format
     public var units: String = "metric"
+    
+    /// Locale sent to OpenWeatherMap to localize the response
+    private var _locale: String? = nil
+    public var locale: String? {
+        get {
+            if let currentLocale = _locale {
+                return currentLocale
+            }
+            
+            return NSLocale.preferredLanguages().first as String!
+        }
+    }
 
     /// Requests timeout, in seconds
     var timeoutInterval: NSTimeInterval {
