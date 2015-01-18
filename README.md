@@ -4,16 +4,9 @@ Swift library for the [OpenWeatherMap API](http://openweathermap.org/api).
 ##Usage examples
 ###Initalization
 ```swift
-// Initializes an instance
 let ow = OpenWeather()
 
-// Initializes an instance with an API key
-let ow = OpenWeather(apiKey: "something")
-```
-
-###Weather by city
-```swift
-let ow = OpenWeather()
+//	Search by city name
 ow.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?) -> Void in
 	if error != nil {
 		println("Error \(error!.message)")
@@ -23,6 +16,10 @@ ow.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?
 	let weatherData = data as NSDictionary!
 	let temp = weatherData["main"]["temp"]
 	println("Temperature in Rome: \(temp)")
+})
+
+// 5 days forecast
+ow.forecast(latitude: 10, longitude: 20, completion: { (data: AnyObject?, error: NSError?) -> Void in
 })
 ```
 
