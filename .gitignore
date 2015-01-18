@@ -17,6 +17,3 @@ DerivedData
 *.hmap
 *.xccheckout
 Build/*
-
-Alamofire/*
-ExSwift/*
