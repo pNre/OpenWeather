@@ -1,0 +1,6 @@
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "ExSwift"]
+	path = ExSwift
+	url = https://github.com/pNre/ExSwift.git
