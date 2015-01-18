@@ -58,3 +58,7 @@ OpenWeatherMap supports 2 different unit systems:
 //	Use the imperial system
 ow.units = "imperial"
 ```
+
+##Dependencies
+* [Alamofire](https://github.com/Alamofire/Alamofire)
+* [ExSwift](https://github.com/pNre/ExSwift)
