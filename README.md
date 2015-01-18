@@ -11,15 +11,6 @@ let ow = OpenWeather()
 let ow = OpenWeather(apiKey: "something")
 ```
 
-####Extra parameters
-#####Request timeout
-The instance variable `timeoutInterval` defines a timeout (in seconds) for the HTTP requests.
-
-```
-//	5 seconds timeout
-ow.timeoutInterval = 5
-```
-
 ###Weather by city
 ```swift
 let ow = OpenWeather()
@@ -33,4 +24,40 @@ ow.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?
 	let temp = weatherData["main"]["temp"]
 	println("Temperature in Rome: \(temp)")
 })
+```
+
+##Extra parameters
+
+#####Request timeout
+The `timeoutInterval` property (default value `10`) defines a timeout (in seconds) for the HTTP requests.
+
+```
+//	5 seconds timeout
+ow.timeoutInterval = 5
+```
+
+#####Locale
+OpenWeatherMap supports a bunch of different locales. 
+
+The library automatically appends to each request the current system locale unless a custom one is set through the `locale` property.
+
+```
+//	Uses the current locale
+ow.locale = nil
+
+//	Always use english
+ow.locale = "en"
+```
+
+For a list of supported locales refer to: [http://openweathermap.org/current#multi](http://openweathermap.org/current#multi)
+
+#####Units
+OpenWeatherMap supports 2 different unit systems:
+
+* `metric` (default in OpenWeather)
+* `imperial`
+
+```
+//	Use the imperial system
+ow.units = "imperial"
 ```

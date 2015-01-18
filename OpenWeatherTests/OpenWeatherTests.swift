@@ -24,10 +24,12 @@ class OpenWeatherTests: XCTestCase {
     func testWeatherByCity_EmptyCity() {
         let expectation = expectationWithDescription("Completion function")
         
-        openWeather!.weather(city: "", completion: { (data: AnyObject?, error: NSError?) -> () in
+        let request = openWeather!.weather(city: "", completion: { (data: AnyObject?, error: NSError?) -> () in
             XCTAssertNotNil(error)
             expectation.fulfill()
         })
+        
+        XCTAssertNil(request)
         
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
             XCTAssertNil(error)
@@ -37,10 +39,12 @@ class OpenWeatherTests: XCTestCase {
     func testWeatherByCity_NonExistentCity() {
         let expectation = expectationWithDescription("Completion function")
         
-        openWeather!.weather(city: "Random, fictional, city", completion: { (data: AnyObject?, error: NSError?) -> () in
+        let request = openWeather!.weather(city: "Random, fictional, city", completion: { (data: AnyObject?, error: NSError?) -> () in
             XCTAssertNotNil(error, "Error shouldn't be nil")
             expectation.fulfill()
         })
+        
+        XCTAssertNotNil(request)
         
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
             XCTAssertNil(error, "Completion handler not called")
@@ -50,7 +54,7 @@ class OpenWeatherTests: XCTestCase {
     func testWeatherByCity_ValidCity() {
         let expectation = expectationWithDescription("Completion function")
         
-        openWeather!.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?) -> () in
+        let request = openWeather!.weather(city: "Rome, Italy", completion: { (data: AnyObject?, error: NSError?) -> () in
             
             XCTAssertNotNil(data, "Data shouldn't be nil")
             XCTAssertNil(error, "Error should be nil")
@@ -64,6 +68,8 @@ class OpenWeatherTests: XCTestCase {
             
         })
         
+        XCTAssertNotNil(request)
+        
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
             XCTAssertNil(error, "Completion handler not called")
         })
@@ -72,7 +78,7 @@ class OpenWeatherTests: XCTestCase {
     func testWeatherByLatLon() {
         let expectation = expectationWithDescription("Completion function")
         
-        openWeather!.weather(latitude: 0, longitude: 0, completion: { (data: AnyObject?, error: NSError?) -> () in
+        let request = openWeather!.weather(latitude: 0, longitude: 0, completion: { (data: AnyObject?, error: NSError?) -> () in
             
             XCTAssertNotNil(data, "Data shouldn't be nil")
             XCTAssertNil(error, "Error should be nil")
@@ -83,6 +89,8 @@ class OpenWeatherTests: XCTestCase {
             expectation.fulfill()
             
         })
+        
+        XCTAssertNotNil(request)
         
         waitForExpectationsWithTimeout(operationTimeout, handler: { (error) -> Void in
             XCTAssertNil(error, "Completion handler not called")

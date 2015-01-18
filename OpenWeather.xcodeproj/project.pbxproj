@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1E1975681A68F51100A086C3 /* OpenWeather.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E1975671A68F51100A086C3 /* OpenWeather.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1E19756E1A68F51100A086C3 /* OpenWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1975621A68F51100A086C3 /* OpenWeather.framework */; };
 		1E1975751A68F51100A086C3 /* OpenWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1975741A68F51100A086C3 /* OpenWeatherTests.swift */; };
 		1E1975881A68F54600A086C3 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1975871A68F54600A086C3 /* OpenWeather.swift */; };
 		1E63D65C1A6ACBAB009C00C4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EE1CBA51A6904CB002CFCC5 /* Alamofire.framework */; };
 		1E63D65E1A6ACBE1009C00C4 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EE1CBA51A6904CB002CFCC5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1EB44DA31A6BE4680015BE53 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EE1CBA51A6904CB002CFCC5 /* Alamofire.framework */; };
 		1EE1CBCF1A6905CC002CFCC5 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB541A68F98B002CFCC5 /* Array.swift */; };
 		1EE1CBD01A6905CC002CFCC5 /* ExSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB591A68F98B002CFCC5 /* ExSwift.swift */; };
 		1EE1CBD11A6905CC002CFCC5 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1CB5C1A68F98B002CFCC5 /* Int.swift */; };
@@ -38,6 +38,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1E1975611A68F51100A086C3;
 			remoteInfo = OpenWeather;
+		};
+		1EB44DA11A6BE4520015BE53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EE1CB9E1A6904CB002CFCC5 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
 		};
 		1EE1CBA41A6904CB002CFCC5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -119,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E19756E1A68F51100A086C3 /* OpenWeather.framework in Frameworks */,
+				1EB44DA31A6BE4680015BE53 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +272,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1EB44DA21A6BE4520015BE53 /* PBXTargetDependency */,
 				1E1975701A68F51100A086C3 /* PBXTargetDependency */,
 			);
 			name = OpenWeatherTests;
@@ -394,6 +402,11 @@
 			isa = PBXTargetDependency;
 			target = 1E1975611A68F51100A086C3 /* OpenWeather */;
 			targetProxy = 1E19756F1A68F51100A086C3 /* PBXContainerItemProxy */;
+		};
+		1EB44DA21A6BE4520015BE53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = 1EB44DA11A6BE4520015BE53 /* PBXContainerItemProxy */;
 		};
 		1EE1CBBC1A6904E5002CFCC5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

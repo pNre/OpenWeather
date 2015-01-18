@@ -118,6 +118,15 @@ public class OpenWeather {
     }
     
     /**
+        Gets the weather condition given a city id
+    
+        :param: id City id
+    */
+    public func weather(#id: UInt, completion: OpenWeatherRequestCompletionFunction) -> Alamofire.Request {
+        return request("weather", params: ["id": String(id)], completion: completion)
+    }
+    
+    /**
         Gets the weather condition given the (latitude, longitude) coordinates
     
         :param: latitude
@@ -152,6 +161,15 @@ public class OpenWeather {
     */
     public func forecast(#latitude: Int, longitude: Int, daily: Bool = true, completion: OpenWeatherRequestCompletionFunction) -> Alamofire.Request {
         return request("forecast" + (daily ? "/daily" : ""), params: ["lat": String(latitude), "lon": String(longitude)], completion: completion)
+    }
+    
+    /**
+        Gets the weather forecast given a city id
+    
+        :param: id City id
+    */
+    public func forecast(#id: UInt, daily: Bool = true, completion: OpenWeatherRequestCompletionFunction) -> Alamofire.Request {
+        return request("forecast" + (daily ? "/daily" : ""), params: ["id": String(id)], completion: completion)
     }
     
     /**
