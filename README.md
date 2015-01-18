@@ -28,7 +28,7 @@ ow.forecast(latitude: 10, longitude: 20, completion: { (data: AnyObject?, error:
 #####Request timeout
 The `timeoutInterval` property (default value `10`) defines a timeout (in seconds) for the HTTP requests.
 
-```
+```swift
 //	5 seconds timeout
 ow.timeoutInterval = 5
 ```
@@ -38,7 +38,7 @@ OpenWeatherMap supports a bunch of different locales.
 
 The library automatically appends to each request the current system locale unless a custom one is set through the `locale` property.
 
-```
+```swift
 //	Uses the current locale
 ow.locale = nil
 
@@ -54,7 +54,7 @@ OpenWeatherMap supports 2 different unit systems:
 * `metric` (default in OpenWeather)
 * `imperial`
 
-```
+```swift
 //	Use the imperial system
 ow.units = "imperial"
 ```
