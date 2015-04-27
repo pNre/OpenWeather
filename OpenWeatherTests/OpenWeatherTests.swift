@@ -62,7 +62,7 @@ class OpenWeatherTests: XCTestCase {
             XCTAssertNotNil(data!["name"], "name key missing from the resulting data dictionary")
             XCTAssertNotNil(data!["weather"], "weather key missing from the resulting data dictionary")
 
-            XCTAssertEqual(data!["name"] as String!, "Rome")
+            XCTAssertEqual(data!["name"] as! String, "Rome")
             
             expectation.fulfill()
             

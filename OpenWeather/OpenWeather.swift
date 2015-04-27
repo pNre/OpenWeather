@@ -47,7 +47,7 @@ public class OpenWeather {
                 return currentLocale
             }
             
-            return NSLocale.preferredLanguages().first as String!
+            return NSLocale.preferredLanguages().first as? String
         }
     }
 
@@ -85,10 +85,10 @@ public class OpenWeather {
             switch (JSON!["message"], JSON!["cod"]) {
             case (let message, let cod) where message is String && cod is String:
                 let error = NSError(domain: NSBundle.mainBundle().bundleIdentifier ?? "OpenWeather",
-                                      code: (cod as String).toInt() ?? 0,
+                                      code: (cod as? String)?.toInt() ?? 0,
                                   userInfo: [
-                                                NSLocalizedDescriptionKey: message as String!,
-                                                "RemoteErrorCode": cod as String!
+                                                NSLocalizedDescriptionKey: message as! String,
+                                                "RemoteErrorCode": cod as! String
                                             ])
                 
                 return completion(JSON, error)
